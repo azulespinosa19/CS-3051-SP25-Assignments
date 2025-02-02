@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Display</title>
+</head>
+<body>
+    <button onclick="addToCode(1)">1</button>
+    <button onclick="addToCode(2)">2</button>
+    <button onclick="addToCode(3)">3</button>
+    <p id="display"></p> <!-- Display area for the code -->
+
+    <script>
+        let code = ""; // This will store the values added from the buttons
+
+        function addToCode(value) {
+            code += value;  // Append the clicked number to the `code` string
+            document.getElementById("display").innerText = code; // Update the display to show the full string
+        }
+    </script>
+</body>
+</html>
