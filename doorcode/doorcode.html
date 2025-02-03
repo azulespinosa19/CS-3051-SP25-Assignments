@@ -1,75 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Door</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Door Code</title>
     <style>
-        #outerRect {
-            width: 150px;
-            height: 200px;
-            background-color: white;
-            border: 2px solid black;
-            position: absolute;
-            top: 30%;
-            left: 45%; 
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 24px;
+            margin: 0;
+            height: 100vh;
         }
 
-        #innerRect {
-            width: 145px;
-            height: 195px;
-            background-color: black;
+        .container {
+            position: relative;
+            top: 20px;
+            z-index: 10;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #displayCode {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #access {
+            width: 500px;
+            height: 100px;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #OpenedDoor,
+        #ClosedDoor {
             position: absolute;
             top: 50%;
-            left: 50%;      
-            transform: translate(-50%, -50%);  
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 400px;
         }
-
-        #handleCircle {
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border-radius: 20%;
-            position: absolute;
-            top: 49%;
-            left: 83%;
-        }
-
     </style>
 </head>
+
 <body>
-    <div id = "outerRect">
-    <div id = "innerRect" ></div>
-    <div id = "openDoor"></div>
-    <div id = "handleCircle"></div>
+    <div class="container">
+        <div class="button-container">
+            <button id="btn1" onclick="addToCode(1)">1</button>
+            <button id="btn2" onclick="addToCode(2)">2</button>
+            <button id="btn3" onclick="addToCode(3)">3</button>
+        </div>
+        <p id="displayCode"></p>
+        <p id="access"></p>
     </div>
 
-    <button id = "btn1" onclick = "addToCode(1)">1</button>
-    <button id = "btn2" onclick = "addToCode(2)">2</button>
-    <button id = "btn3" onclick = "addToCode(3)">3</button>
-    <p id = "displayCode"></p>
-    <p style = "width: 500px; height: 200px" id = "access"></p>
+    <img id="OpenedDoor" src="OpenedDoor.jpeg" alt="Opened Door">
+    <img id="ClosedDoor" src="ClosedDoor.jpeg" alt="Closed Door">
 
     <script>
         let code = "";
         function addToCode(value) {
             code += value;
-            document.getElementById("displayCode").innerText = code; 
-            if (code == "123" || code == "321" || code == "213" || code == "132" || code == "231" || code == "111" || code == "222" || code == "333") {
-                document.getElementById("btn1").style.backgroundColor = "red";
-                document.getElementById("btn2").style.backgroundColor = "red";
-                document.getElementById("btn3").style.backgroundColor = "red";
-                document.getElementById("access").innerText = "Access Denied";
-                code = "";
-            }
-            if (code == "312") {
-                document.getElementById("innerRect").style.display = "none";
+            document.getElementById("displayCode").innerText = code;
+
+            if (code.includes("312")) {
+                let myelem = document.querySelector("#ClosedDoor");
+                myelem.style.display = "none";
                 document.getElementById("btn1").style.backgroundColor = "lightgreen";
                 document.getElementById("btn2").style.backgroundColor = "lightgreen";
                 document.getElementById("btn3").style.backgroundColor = "lightgreen";
                 document.getElementById("access").innerText = "Access Granted";
+                code = "";
             }
         }
     </script>
 </body>
+
 </html>
