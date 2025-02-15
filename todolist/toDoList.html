@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        button {
+            background: rgb(255, 105, 190);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>To Do List</h2>
+    <input type="text" id="todo-input" placeholder="Type a new to-do here">
+    <button onclick="addTodo()">Add to-do</button>
+    <ul id="todo-list"></ul>
+    
+    <script>
+        function addTodo() {
+            const input = document.getElementById("todo-input");
+            const text = input.value.trim();
+            if (text === "") return;
+            
+            const li = document.createElement("li");
+            
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.addEventListener("change", function() {
+                if (this.checked) {
+                    span.classList.add("completed");
+                } else {
+                    span.classList.remove("completed");
+                }
+            });
+            
+            const span = document.createElement("span");
+            span.textContent = text;
+            
+            const removeItem = document.createElement("button");
+            removeItem.textContent = "X";
+            removeItem.onclick = function() {
+                li.remove();
+            };
+            
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(removeItem);
+            document.getElementById("todo-list").appendChild(li);
+            
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
