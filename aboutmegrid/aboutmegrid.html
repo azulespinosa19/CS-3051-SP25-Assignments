@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Azul Espinosa</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: grid;
+            grid-template-rows: 80px 1fr 50px;
+            grid-template-columns: 200px 1fr;
+            grid-template-areas: 
+                "header header"
+                "menu content"
+                "footer footer";
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: lightseagreen;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        nav {
+            grid-area: menu;
+            background-color: lavender;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            padding: 10px;
+            background-color: lightblue;
+            margin: 5px 0;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        nav ul li.active {
+            background-color: darkcyan;
+            color: white;
+        }
+
+        main {
+            grid-area: content;
+            padding: 20px;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: lightseagreen;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        img {
+            border: 3.5px solid lightseagreen;
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                grid-template-columns: 1fr;
+                grid-template-rows: 80px auto 1fr 50px;
+                grid-template-areas: 
+                    "header"
+                    "menu"
+                    "content"
+                    "footer";
+            }
+
+            nav ul li {
+                display: inline-block;
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header> About Azul Espinosa</header>
+    
+    <nav>
+        <ul>
+            <li class="active" onclick="showContent('about')">About Me</li>
+            <li onclick="showContent('favorites')">Favorites</li>
+            <li onclick="showContent('websites')">Websites</li>
+        </ul>
+    </nav>
+    
+    <main id="content">
+        <h3>I'm Argentinian-American from Boulder, Colorado, USA</h3>
+        <p>I enjoy sunset-watching, trying new cooking recipes, snowboarding, re-watching my favorite TV shows, and hanging
+            out with my mom (as seen below).</p>
+        <img src="IMG_4458.jpeg" alt="Photo of Me">
+    </main>
+    
+    <footer>
+        Copyright &copy; 2025
+    </footer>
+
+    <script>
+        function showContent(section) {
+            const content = document.getElementById('content');
+            const menuItems = document.querySelectorAll('nav ul li');
+            
+            menuItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (section === 'about') {
+                content.innerHTML = `
+                    <h3>I'm Argentinian-American from Boulder, Colorado, USA</h3>
+                    <p>I enjoy sunset-watching, trying new cooking recipes, snowboarding, re-watching my favorite TV shows, and hanging
+                        out with my mom (as seen below).</p>
+                    <img src="IMG_4458.jpeg" alt="Photo of Me">
+                `;
+            } else if (section === 'favorites') {
+                content.innerHTML = `
+                    <h4>Favorite Shows:</h4>
+                    <table>
+                        <tr><th>Show</th><th>Year</th><th>Rating</th></tr>
+                        <tr><td>Normal People</td><td>2020</td><td>100/10</td></tr>
+                        <tr><td>Sex and the City</td><td>1998</td><td>9/10</td></tr>
+                        <tr><td>Gossip Girl</td><td>2007</td><td>10/10</td></tr>
+                    </table>
+                `;
+            } else if (section === 'websites') {
+                content.innerHTML = `
+                    <h4>Websites I like:</h4>
+                    <ol>
+                        <li><a href="https://bluecanyontech.com/" target="_blank">Blue Canyon Technologies</a></li>
+                        <li><a href="https://www.rhodeskin.com/" target="_blank">Rhode Skincare</a></li>
+                        <li><a href="https://www.louvre.fr/" target="_blank">Louvre</a></li>
+                    </ol>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
