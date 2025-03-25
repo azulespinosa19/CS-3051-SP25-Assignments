@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me - Azul Espinosa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: grid;
+      grid-template-rows: 80px 1fr 50px;
+      grid-template-columns: 200px 1fr;
+      grid-template-areas:
+        "header header"
+        "menu content"
+        "footer footer";
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      background-color: lightseagreen;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+    }
+
+    nav {
+      grid-area: menu;
+      background-color: lavender;
+      padding: 15px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      padding: 10px;
+      background-color: lightblue;
+      margin: 5px 0;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    nav ul li.active {
+      background-color: darkcyan;
+      color: white;
+    }
+
+    main {
+      grid-area: content;
+      padding: 20px;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: lightseagreen;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    img {
+      border: 3.5px solid lightseagreen;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>About Azul Espinosa</header>
+
+  <nav>
+    <ul>
+        <li onclick="showContent('about.html', event)">About Me</li>
+        <li onclick="showContent('favorites.html', event)">Favorites</li>
+        <li onclick="showContent('websites.html', event)">Websites</li>        
+    </ul>
+  </nav>
+
+  <main id="content">
+    <h3>Welcome!</h3>
+    <p>Click a tab to load more content about me!</p>
+  </main>
+
+  <footer>&copy; 2025</footer>
+
+  <script>
+    function showContent(filename, event) {
+      const content = document.getElementById('content');
+      const menuItems = document.querySelectorAll('nav ul li');
+  
+      menuItems.forEach(item => item.classList.remove('active'));
+      event.target.classList.add('active');
+  
+      console.log("Fetching:", filename);
+  
+      fetch(`/${filename}`)
+        .then(response => {
+          if (!response.ok) throw new Error(`Failed to load ${filename}`);
+          return response.text();
+        })
+        .then(html => {
+          console.log("Loaded content:", html);
+          content.innerHTML = html;
+        })
+        .catch(err => {
+          console.error(err);
+          content.innerHTML = "<p>Couldn't load content.</p>";
+        });
+    }
+  
+    // Optional: auto-load About section on load
+    window.onload = () => {
+      showContent('about.html', { target: document.querySelector('nav ul li') });
+    };
+  </script>  
+</body>
+</html>
