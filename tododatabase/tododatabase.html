@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        button {
+            background: rgb(255, 105, 190);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>To Do List</h2>
+    <input type="text" id="todo-input" placeholder="Type a new to-do here">
+    <button onclick="addTodo()">Add to-do</button>
+    <ul id="todo-list"></ul>
+    
+    <script>
+        async function loadTodos() {
+            const res = await fetch('/todos');
+            const todos = await res.json();
+    
+            todos.forEach(todo => {
+                addTodoToDOM(todo);
+            });
+        }
+    
+        async function addTodo() {
+            const input = document.getElementById("todo-input");
+            const text = input.value.trim();
+            if (text === "") return;
+    
+            const res = await fetch('/todos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            });
+    
+            const newTodo = await res.json();
+            addTodoToDOM(newTodo);
+            input.value = "";
+        }
+    
+        function addTodoToDOM(todo) {
+            const li = document.createElement("li");
+    
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = todo.completed;
+            checkbox.addEventListener("change", async function () {
+                await fetch(`/todos/${todo.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed: this.checked ? 1 : 0 })
+                });
+                span.classList.toggle("completed", this.checked);
+            });
+    
+            const span = document.createElement("span");
+            span.textContent = todo.text;
+            if (todo.completed) span.classList.add("completed");
+    
+            const removeItem = document.createElement("button");
+            removeItem.textContent = "X";
+            removeItem.onclick = async function () {
+                await fetch(`/todos/${todo.id}`, { method: 'DELETE' });
+                li.remove();
+            };
+    
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(removeItem);
+            document.getElementById("todo-list").appendChild(li);
+        }
+    
+        // Load todos when the page is ready
+        window.onload = loadTodos;
+    </script>
+    
+</body>
+</html>
