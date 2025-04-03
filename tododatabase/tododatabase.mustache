@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>To Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: auto;
+      text-align: center;
+    }
+    ul { list-style: none; padding: 0; }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    button {
+      background: rgb(255, 105, 190);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>To Do List</h2>
+  <form action="/todos" method="POST">
+    <input type="text" name="text" placeholder="Type a new to-do here" required />
+    <button type="submit">Add to-do</button>
+  </form>
+
+  <ul>
+    {{#todos}}
+      <li>
+        <form action="/todos/{{id}}/toggle" method="POST">
+          <input type="checkbox" name="completed" onchange="this.form.submit()" {{#completed}}checked{{/completed}} />
+        </form>
+        <span class="{{#completed}}completed{{/completed}}">{{text}}</span>
+        <form action="/todos/{{id}}/delete" method="POST">
+          <button>X</button>
+        </form>
+      </li>
+    {{/todos}}
+  </ul>
+</body>
+</html>
